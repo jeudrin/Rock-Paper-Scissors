@@ -184,7 +184,6 @@
     <Content Include="Estilos\Bootstrap\fonts\glyphicons-halflings-regular.woff2" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Particionamiento Tecnologico\Capa de Presentación\UI_Acerca.aspx" />
-    <Content Include="Particionamiento Tecnologico\Capa de Presentación\UI_AnalizarTexto.aspx" />
     <Content Include="Particionamiento Tecnologico\Capa de Presentación\UI_CargarArchivo.aspx" />
     <Content Include="Particionamiento Tecnologico\Capa de Presentación\UI_Ejemplos.aspx" />
     <Content Include="Particionamiento Tecnologico\Capa de Presentación\UI_Solucion.aspx" />
@@ -237,29 +236,14 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Particionamiento Tecnologico\Capa de Acceso a Datos\Modelo_Main.cs" />
-    <Compile Include="Particionamiento Tecnologico\Capa de Negocios\Archivos Comprimidos\Activities.cs" />
-    <Compile Include="Particionamiento Tecnologico\Capa de Negocios\Archivos Comprimidos\Entities.cs" />
-    <Compile Include="Particionamiento Tecnologico\Capa de Negocios\Archivos Comprimidos\RootObject.cs" />
-    <Compile Include="Particionamiento Tecnologico\Capa de Negocios\Archivos Comprimidos\User.cs" />
-    <Compile Include="Particionamiento Tecnologico\Capa de Negocios\Archivos Comprimidos\UserMention.cs" />
-    <Compile Include="Particionamiento Tecnologico\Capa de Negocios\Categoria.cs" />
+    <Compile Include="Particionamiento Tecnologico\Capa de Negocios\Jugador.cs" />
     <Compile Include="Particionamiento Tecnologico\Capa de Negocios\RockPaperScissors.cs" />
-    <Compile Include="Particionamiento Tecnologico\Capa de Negocios\HTMLtoText.cs" />
-    <Compile Include="Particionamiento Tecnologico\Capa de Negocios\Idioma.cs" />
-    <Compile Include="Particionamiento Tecnologico\Capa de Negocios\Main.cs" />
     <Compile Include="Particionamiento Tecnologico\Capa de Presentación\UI_Acerca.aspx.cs">
       <DependentUpon>UI_Acerca.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Particionamiento Tecnologico\Capa de Presentación\UI_Acerca.aspx.designer.cs">
       <DependentUpon>UI_Acerca.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Particionamiento Tecnologico\Capa de Presentación\UI_AnalizarTexto.aspx.cs">
-      <DependentUpon>UI_AnalizarTexto.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Particionamiento Tecnologico\Capa de Presentación\UI_AnalizarTexto.aspx.designer.cs">
-      <DependentUpon>UI_AnalizarTexto.aspx</DependentUpon>
     </Compile>
     <Compile Include="Particionamiento Tecnologico\Capa de Presentación\UI_CargarArchivo.aspx.cs">
       <DependentUpon>UI_CargarArchivo.aspx</DependentUpon>

@@ -9,48 +9,58 @@ namespace Rock_Paper_Scissors.Particionamiento_Tecnologico.Capa_de_Negocios
 {
     public class RockPaperScissors
     {
-        // Variable para realizar todas las operaciones del Sistema
-        Main Main;
+        // ATRIBUTOS
+
+        // Variable para almacenar los jugadores
+        public List<Jugador> listaJugadores { get; set; }
 
         // Variable para hacer consultas a la base de datos
-        Modelo_Main Modelo_Main;
+        public Modelo_Main Modelo_Main { get; set; }
+
+        // CONSTRUCTOR
 
         public RockPaperScissors()
         {
-            Main = new Main();
-            Modelo_Main = new Modelo_Main();
+            this.listaJugadores = new List<Jugador>();
+            this.Modelo_Main = new Modelo_Main();
         }
 
-        public Main getMain()
-        {
-            return this.Main;
-        }
-
-        public Modelo_Main getModeloMain()
-        {
-            return this.Modelo_Main;
-        }
-
-        public void setMain(Main m)
-        {
-            this.Main = m;
-        }
-
-        public void setModeloMain(Modelo_Main mm)
-        {
-            this.Modelo_Main = mm;
-        }
+        // METODOS
 
         /// <summary>
         /// Método para inicializar el Sistema
         /// </summary>
         public void inicializarSistema()
         {
-            Main = new Main();
+            this.listaJugadores = new List<Jugador>();
 
-            Modelo_Main = new Modelo_Main();
+            this.Modelo_Main = new Modelo_Main();
+        }
 
-            Modelo_Main.inicializarSistema();
+        /// <summary>
+        /// Método para crear la carpeta temporal
+        /// </summary>
+        /// <param name="directorio"></param>
+        public void crearCarpetaTemporal(String directorio)
+        {
+            // Se crea una carpeta temporal para almacenar los archivos que se van a analizar
+            if (!System.IO.Directory.Exists(directorio))
+            {
+                System.IO.Directory.CreateDirectory(directorio);
+            }
+        }
+
+        /// <summary>
+        /// Método para eliminar la carpeta temporal
+        /// </summary>
+        /// <param name="directorio"></param>
+        public void eliminarCarpetaTemporal(String directorio)
+        {
+            // Se elimina la carpeta temporal que almacena los archivos que se van a analizar
+            if (System.IO.Directory.Exists(directorio))
+            {
+                Directory.Delete(directorio, true);
+            }
         }
 
         /// <summary>
@@ -58,7 +68,7 @@ namespace Rock_Paper_Scissors.Particionamiento_Tecnologico.Capa_de_Negocios
         /// </summary>
         /// <param name="archivo"></param>
         /// <returns></returns>
-        public String cargarTXT(String archivo)
+        public string cargarTXT(String archivo)
         {
             string content;
 
@@ -70,135 +80,87 @@ namespace Rock_Paper_Scissors.Particionamiento_Tecnologico.Capa_de_Negocios
             return content;
         }
 
-        /// <summary>
-        /// Método para cargar el contenido de un archivo .docx
-        /// </summary>
-        /// <param name="archivo"></param>
-        /// <returns></returns>
-        public String cargarDOCX(String archivo)
+        public bool getJugadores(string content)
         {
-            Microsoft.Office.Interop.Word.Application objWordApp = new Microsoft.Office.Interop.Word.Application();
+            int leer = 0;
 
-            object objWordFile = archivo;
-            object objNull = System.Reflection.Missing.Value;
+            int banderaUsuario = 0;
+            int banderaJugada = 0;
 
-            Microsoft.Office.Interop.Word.Document WordDoc = objWordApp.Documents.Open(
-                ref objWordFile, ref objNull, ref objNull,
-                ref objNull, ref objNull, ref objNull,
-                ref objNull, ref objNull, ref objNull,
-                ref objNull, ref objNull, ref objNull, ref objNull, ref objNull, ref objNull, ref objNull);
+            string nombre = "";
+            string jugada = "";
 
-            WordDoc.ActiveWindow.Selection.WholeStory();
-            WordDoc.ActiveWindow.Selection.Copy();
-
-            string strWordText = WordDoc.Content.Text;
-
-            WordDoc.Close(ref objNull, ref objNull, ref objNull);
-
-            objWordApp.Quit(ref objNull, ref objNull, ref objNull);
-
-            return strWordText;
-        }
-
-        /// <summary>
-        /// Método para cargar el contenido de un archivo .html
-        /// </summary>
-        /// <param name="archivo"></param>
-        /// <returns></returns>
-        private string cargarHTML(String archivo)
-        {
-            HTMLtoText HTMLtoText = new HTMLtoText();
-
-            return StripTagsRegex(HTMLtoText.Convert(archivo));
-        }
-
-        /// <summary>
-        /// Remover HTML de string con Regex.
-        /// </summary>
-        public static string StripTagsRegex(string source)
-        {
-            char[] array = new char[source.Length];
-            int arrayIndex = 0;
-            bool inside = false;
-
-            for (int i = 0; i < source.Length; i++)
+            for (int i = 0; i < content.Length; i++)
             {
-                char let = source[i];
-                if (let == '<')
+                if (content[i] == '\"')
                 {
-                    inside = true;
-                    continue;
+                    i++;
+
+                    if (leer == 0)
+                        leer = 1;
+                    else
+                    {
+                        leer = 0;
+                        if (banderaUsuario == 0)
+                            banderaUsuario = 1;
+                        else
+                            banderaJugada = 1;
+                    }
                 }
-                if (let == '>')
+
+                if (leer == 1 && banderaUsuario == 0)
+                    nombre += content[i];
+
+                else if (leer == 1 && banderaUsuario == 1)
+                    jugada += content[i];
+
+                if (banderaUsuario == 1 && banderaJugada == 1)
                 {
-                    inside = false;
-                    continue;
-                }
-                if (!inside)
-                {
-                    array[arrayIndex] = let;
-                    arrayIndex++;
+                    if (jugada == "R" || jugada == "P" || jugada == "S")
+                    {
+                        this.listaJugadores.Add(new Jugador(nombre, jugada));
+
+                        nombre = "";
+                        jugada = "";
+
+                        banderaUsuario = 0;
+                        banderaJugada = 0;
+                    }
+                    else
+                        return false;
                 }
             }
-            return new string(array, 0, arrayIndex);
+
+            return true;
         }
 
-        /// <summary>
-        /// Método para convertir String en Array
-        /// </summary>
-        /// <param name="s"></param>
-        /// <returns></returns>
-        public string[] splitString(String s)
+        public Jugador ganador(List<Jugador> lj, List<Jugador> ln)
         {
-            string[] separadores = { "{", "}", "[", "]", "(", ")", ",", ".", "!", "?", ";", ":", " ", "“", "”", "‘", "’", "\n", "\t", "\r" };
-            string[] arreglo = s.Split(separadores, StringSplitOptions.RemoveEmptyEntries);
-
-            return arreglo;
-        }
-
-        /// <summary>
-        /// Método que realiza el análisis del texto
-        /// </summary>
-        public void analizarBusquedas()
-        {
-            Boolean palabraNuevaIdioma;
-            Boolean palabraNuevaCategoria;
-
-            foreach (string busqueda in Main.getListaBusquedas())
+            for (int i = 0; i < lj.Count; i++)
             {
-                string[] busquedaDividida = splitString(busqueda);
+                if (i + 1 == lj.Count)
+                    ln.Add(lj.ElementAt(i));
+                else if (lj.ElementAt(i).jugada == "R" && lj.ElementAt(i + 1).jugada == "R")
+                    ln.Add(lj.ElementAt(i));
+                else if (lj.ElementAt(i).jugada == "P" && lj.ElementAt(i + 1).jugada == "P")
+                    ln.Add(lj.ElementAt(i));
+                else if (lj.ElementAt(i).jugada == "S" && lj.ElementAt(i + 1).jugada == "S")
+                    ln.Add(lj.ElementAt(i));
+                else if (lj.ElementAt(i).jugada == "R" && lj.ElementAt(i + 1).jugada == "S")
+                    ln.Add(lj.ElementAt(i));
+                else if (lj.ElementAt(i).jugada == "S" && lj.ElementAt(i + 1).jugada == "P")
+                    ln.Add(lj.ElementAt(i));
+                else if (lj.ElementAt(i).jugada == "P" && lj.ElementAt(i + 1).jugada == "R")
+                    ln.Add(lj.ElementAt(i));
+                else
+                    ln.Add(lj.ElementAt(i + 1));
 
-                foreach (string b in busquedaDividida)
-                {
-                    palabraNuevaIdioma = false;
-                    palabraNuevaCategoria = false;
-
-                    for (int x = 0; x < Main.getListaIdiomas().Count(); x++)
-                    {
-                        if (Main.getListaIdiomas().ElementAt(x).getListaPalabras().Contains(b))
-                        {
-                            Main.getListaIdiomas().ElementAt(x).incrementarIncidencias();
-
-                            palabraNuevaIdioma = true;
-                        }
-                    }
-
-                    for (int y = 0; y < Main.getListaCategorias().Count(); y++)
-                    {
-                        if (Main.getListaCategorias().ElementAt(y).getListaPalabras().Contains(b))
-                        {
-                            Main.getListaCategorias().ElementAt(y).incrementarIncidencias();
-
-                            palabraNuevaCategoria = true;
-                        }
-                    }
-
-                    if (!palabraNuevaIdioma || !palabraNuevaCategoria)
-                    {
-                        Main.agregarPalabraNueva(b);
-                    }
-                }
+                i++;
             }
+            if (ln.Count > 1)
+                return ganador(ln, new List<Jugador>());
+
+            return ln.ElementAt(0);
         }
     }
 }

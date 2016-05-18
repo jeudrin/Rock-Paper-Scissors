@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Rock_Paper_Scissors.Particionamiento_Tecnologico.Capa_de_Negocios;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -13,49 +14,6 @@ namespace Rock_Paper_Scissors.Particionamiento_Tecnologico.Capa_de_Presentación
         protected void Page_Load(object sender, EventArgs e)
         {
 
-        }
-
-        /// <summary>
-        /// Método para crear la carpeta temporal
-        /// </summary>
-        /// <param name="directorio"></param>
-        public void crearCarpetaTemporal(String directorio)
-        {
-            // Se crea una carpeta temporal para almacenar los archivos que se van a analizar
-            if (!System.IO.Directory.Exists(directorio))
-            {
-                System.IO.Directory.CreateDirectory(directorio);
-            }
-        }
-
-        /// <summary>
-        /// Método para eliminar la carpeta temporal
-        /// </summary>
-        /// <param name="directorio"></param>
-        public void eliminarCarpetaTemporal(String directorio)
-        {
-            // Se elimina la carpeta temporal que almacena los archivos que se van a analizar
-            if (System.IO.Directory.Exists(directorio))
-            {
-                Directory.Delete(directorio, true);
-            }
-        }
-
-        /// <summary>
-        /// Método para cargar el contenido de un archivo .txt
-        /// </summary>
-        /// <param name="archivo"></param>
-        /// <returns></returns>
-        public String cargarTXT(String archivo)
-        {
-            string content;
-
-            using (StreamReader inputStreamReader = new StreamReader(archivo))
-            {
-                content = inputStreamReader.ReadToEnd();
-            }
-
-            return content;
         }
 
         /// <summary>
@@ -74,7 +32,7 @@ namespace Rock_Paper_Scissors.Particionamiento_Tecnologico.Capa_de_Presentación
                 if (extensionArchivo == ".txt")
                 {
                     // Se crea la carpeta temporal
-                    crearCarpetaTemporal(Server.MapPath("/UploadedFiles"));
+                    SiteMaster.RockPaperScissors.crearCarpetaTemporal(Server.MapPath("/UploadedFiles"));
 
                     // Se guarda el archivo en la carpeta temporal
                     fuSeleccioneArchivo.SaveAs(Server.MapPath("/UploadedFiles/" + nombreArchivo));
@@ -83,13 +41,29 @@ namespace Rock_Paper_Scissors.Particionamiento_Tecnologico.Capa_de_Presentación
                     // Archivos .txt
                     if (extensionArchivo == ".txt")
                     {
-                        tbArchivoCargado.Text = cargarTXT(Server.MapPath("/UploadedFiles/" + nombreArchivo));
+                        SiteMaster.RockPaperScissors.inicializarSistema();
+
+                        string content = SiteMaster.RockPaperScissors.cargarTXT(Server.MapPath("/UploadedFiles/" + nombreArchivo));
+                        
+                        tbArchivoCargado.Text = content;
+
+                        if (SiteMaster.RockPaperScissors.getJugadores(content)) ;
+
+                        else
+                            lblResultado.Text = "Se ha detectado una estrategia no válida";
+
+                        if (SiteMaster.RockPaperScissors.listaJugadores.Count % 2 != 0)
+                            lblResultado.Text = "Cantidad de jugadores no válida";
+                        else
+                        {
+                            Jugador j = SiteMaster.RockPaperScissors.ganador(SiteMaster.RockPaperScissors.listaJugadores, new List<Jugador>());
+                            lblResultado.Text = "El ganador es: " + j.nombre + ", usando " + j.jugada + " como estrategia";
+                        }
                     }
                    
                     // Se elimina la carpeta temporal
-                    eliminarCarpetaTemporal(Server.MapPath("/UploadedFiles"));
+                    SiteMaster.RockPaperScissors.eliminarCarpetaTemporal(Server.MapPath("/UploadedFiles"));
                 }
-
                 else
                 {
                     tbArchivoCargado.Text = "Solo se permiten archivos: '.txt'";

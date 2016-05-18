@@ -13,7 +13,8 @@
     <asp:Button CssClass="btn btn-success" ID="btnCargarArchivo" runat="server" Text="Cargar Archivo" OnClick="btnCargarArchivo_Click"/>
     <br />
     <br />
-    <asp:TextBox ID="tbArchivoCargado" runat="server" Height="200px" TextMode="MultiLine" Width="935px" style="resize:none"></asp:TextBox>
+    <asp:TextBox ID="tbArchivoCargado" runat="server" Height="250px" TextMode="MultiLine" Width="935px" style="resize:none"></asp:TextBox>
     <br />
     <br />  
+    <asp:Label CssClass="lead" ID="lblResultado" runat="server" Text=""></asp:Label>
 </asp:Content>
