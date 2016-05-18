@@ -1,0 +1,57 @@
+/* Propiedades para el header, container y footer */
+
+#body
+{ 
+    margin:0; 
+    padding:0;   
+}
+ 
+#header_container 
+{ 
+    background-color:black;
+    height:40px; left:0; 
+    position:fixed; 
+    width:100%; 
+    top:0; 
+}
+
+#header
+{ 
+    color:white;
+    line-height:40px; 
+    margin:0 auto; 
+    width:eeepx; 
+    text-align:center;
+}
+ 
+#container 
+{ 
+    margin:0 auto; 
+    overflow:auto; 
+    padding:80px 0; 
+    width:940px; 
+}
+
+#content
+{
+    
+}
+ 
+#footer_container 
+{ 
+    background-color:black;
+    bottom:0; 
+    height:40px; 
+    left:0; 
+    position:fixed; 
+    width:100%; 
+}
+
+#footer 
+{ 
+    color:white;
+    line-height:40px; 
+    margin:0 auto; 
+    width:940px; 
+    text-align:center; 
+}

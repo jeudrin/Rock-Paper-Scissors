@@ -1,0 +1,97 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="Rock_Paper_Scissors.SiteMaster" %>
+
+<%@ Register Assembly="System.Web.DataVisualization, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Namespace="System.Web.UI.DataVisualization.Charting" TagPrefix="asp" %>
+
+<!DOCTYPE html>
+
+<html lang="es">
+
+<head runat="server">
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8" />
+    <title><%: Page.Title %>Rock-Paper-Scissors</title>
+
+    <link href="Estilos/Plantilla.css" rel="stylesheet" />
+    <link href="Estilos/Bootstrap/css/bootstrap.css" rel="stylesheet" />
+
+    <asp:PlaceHolder runat="server">     
+            <%: Scripts.Render("~/bundles/modernizr") %>
+    </asp:PlaceHolder>  
+
+    <webopt:BundleReference runat="server" Path="~/Content/css" /> 
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    <asp:ContentPlaceHolder runat="server" ID="HeadContent" />
+
+</head>
+
+<body>
+
+    <div id="header_container">
+        <div id="header">
+            Rock-Paper-Scissors
+        </div>                
+    </div>
+
+    <div id="container">
+        <div id="content"> 
+
+            <form runat="server">
+
+                <asp:ScriptManager runat="server">
+
+                    <Scripts>
+                        <%--To learn more about bundling scripts in ScriptManager see http://go.microsoft.com/fwlink/?LinkID=272931&clcid=0x409 --%>
+                        <%--Framework Scripts--%>
+            
+                        <asp:ScriptReference Name="MsAjaxBundle" />
+                        <asp:ScriptReference Name="jquery" />
+                        <asp:ScriptReference Name="jquery.ui.combined" />
+                        <asp:ScriptReference Name="WebForms.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebForms.js" />
+                        <asp:ScriptReference Name="WebUIValidation.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebUIValidation.js" />
+                        <asp:ScriptReference Name="MenuStandards.js" Assembly="System.Web" Path="~/Scripts/WebForms/MenuStandards.js" />
+                        <asp:ScriptReference Name="GridView.js" Assembly="System.Web" Path="~/Scripts/WebForms/GridView.js" />
+                        <asp:ScriptReference Name="DetailsView.js" Assembly="System.Web" Path="~/Scripts/WebForms/DetailsView.js" />
+                        <asp:ScriptReference Name="TreeView.js" Assembly="System.Web" Path="~/Scripts/WebForms/TreeView.js" />
+                        <asp:ScriptReference Name="WebParts.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebParts.js" />
+                        <asp:ScriptReference Name="Focus.js" Assembly="System.Web" Path="~/Scripts/WebForms/Focus.js" />
+                        <asp:ScriptReference Name="WebFormsBundle" />
+                        <%--Site Scripts--%>
+
+                    </Scripts>
+
+                </asp:ScriptManager>
+
+                <nav>
+                    <ul id="menu" class="nav nav-tabs">
+                        <li><a runat="server" href="~/Particionamiento Tecnologico/Capa de Presentación/UI_Top">Top</a></li>
+                        <li><a runat="server" href="~/Particionamiento Tecnologico/Capa de Presentación/UI_CargarArchivo.aspx">Cargar archivo</a></li>
+                        <li><a runat="server" href="~/Particionamiento Tecnologico/Capa de Presentación/UI_Ejemplos.aspx">Ejemplos</a></li>
+                        <li><a runat="server" href="~/Particionamiento Tecnologico/Capa de Presentación/UI_Solucion.aspx">Solución</a></li>
+                        <li><a runat="server" href="~/Particionamiento Tecnologico/Capa de Presentación/UI_Acerca.aspx">Acerca</a></li>
+                        
+                    </ul>
+                </nav>
+                
+                <div >
+                    <asp:ContentPlaceHolder runat="server" ID="FeaturedContent" />
+
+                    <section >
+                        <asp:ContentPlaceHolder runat="server" ID="MainContent" />
+                    </section>
+                </div>
+
+            </form>
+                  
+        </div>
+    </div>
+
+    <div id="footer_container">
+        <div id="footer">
+            <%: DateTime.Now.Year %> Copyright ©
+        </div>                
+    </div>
+
+</body>
+</html>
