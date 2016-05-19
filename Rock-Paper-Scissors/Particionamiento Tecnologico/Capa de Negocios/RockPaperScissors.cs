@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Web;
 
 namespace Rock_Paper_Scissors.Particionamiento_Tecnologico.Capa_de_Negocios
@@ -13,6 +14,8 @@ namespace Rock_Paper_Scissors.Particionamiento_Tecnologico.Capa_de_Negocios
 
         // Variable para almacenar los jugadores
         public List<Jugador> listaJugadores { get; set; }
+        // Variable para almacenar los jugadores
+        public List<Jugador> listaTopJugadores { get; set; }
 
         // Variable para hacer consultas a la base de datos
         public Modelo_Main Modelo_Main { get; set; }
@@ -22,6 +25,7 @@ namespace Rock_Paper_Scissors.Particionamiento_Tecnologico.Capa_de_Negocios
         public RockPaperScissors()
         {
             this.listaJugadores = new List<Jugador>();
+            this.listaTopJugadores = new List<Jugador>();
             this.Modelo_Main = new Modelo_Main();
         }
 
@@ -157,10 +161,37 @@ namespace Rock_Paper_Scissors.Particionamiento_Tecnologico.Capa_de_Negocios
 
                 i++;
             }
-            if (ln.Count > 1)
+            if (ln.Count > 2)
                 return ganador(ln, new List<Jugador>());
+            else
+                //actualizarTop(ln.ElementAt(0), ln.ElementAt(1));
 
             return ln.ElementAt(0);
+        }
+
+        public void actualizarTop(Jugador j1, Jugador j2)
+        {
+            int j11 = 0;
+            int j22 = 0;
+
+            foreach(Jugador j in this.listaTopJugadores)
+            {
+                if (j.nombre == j1.nombre)
+                {
+                    j.partidasGanadas += 3;
+                    j11 = 1;
+                }
+                else if (j.nombre == j2.nombre)
+                {
+                    j.partidasGanadas += 1;
+                    j22 = 1;
+                }
+            }
+
+            if (j11 == 0)
+                this.listaTopJugadores.Add(j1);
+            else if (j22 == 0)
+                this.listaTopJugadores.Add(j2);
         }
     }
 }

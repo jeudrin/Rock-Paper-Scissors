@@ -173,6 +173,11 @@
     <Content Include="Images\orderedList9.png" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Images\Resources\facebook.png" />
+    <Content Include="Images\Resources\github.png" />
+    <Content Include="Images\Resources\linkedin.png" />
+    <Content Include="Images\Resources\Perfil.jpg" />
+    <Content Include="Images\Resources\twitter.png" />
     <Content Include="packages.config" />
     <Content Include="Estilos\Bootstrap\css\bootstrap-theme.css.map" />
     <Content Include="Estilos\Bootstrap\css\bootstrap-theme.min.css.map" />

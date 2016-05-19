@@ -21,7 +21,6 @@ namespace Rock_Paper_Scissors.Particionamiento_Tecnologico.Capa_de_Acceso_a_Dato
 
         public Modelo_Main()
         {
-            this.conexion = new SqlConnection(SiteMaster.stringConnection);
         }
 
         // METODOS

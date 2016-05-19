@@ -2,7 +2,9 @@
 using Rock_Paper_Scissors.Particionamiento_Tecnologico.Capa_de_Negocios;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Web;
 using System.Web.Security;
 using System.Web.UI;
@@ -12,9 +14,6 @@ namespace Rock_Paper_Scissors
 {
     public partial class SiteMaster : MasterPage
     {
-        // string para conectar con la base de datos
-        public static string stringConnection = "Data Source=JEUDRIN-PC;Initial Catalog=ClasificacionAnalisisEstadistico;Integrated Security=True;MultipleActiveResultSets=true;";
-
         private const string AntiXsrfTokenKey = "__AntiXsrfToken";
         private const string AntiXsrfUserNameKey = "__AntiXsrfUserName";
         private string _antiXsrfTokenValue;
@@ -23,7 +22,7 @@ namespace Rock_Paper_Scissors
         public static RockPaperScissors RockPaperScissors;
 
         protected void Page_Init(object sender, EventArgs e)
-        {
+        {            
             // The code below helps to protect against XSRF attacks
             var requestCookie = Request.Cookies[AntiXsrfTokenKey];
             Guid requestCookieGuidValue;
@@ -78,6 +77,38 @@ namespace Rock_Paper_Scissors
             if(!IsPostBack)
             {
                 RockPaperScissors = new RockPaperScissors();
+            }
+        }
+
+        public void cargarBD()
+        {
+            try
+            {
+                using (Stream stream = File.Open(Server.MapPath("/BD.bin"), FileMode.Open))
+                {
+                    BinaryFormatter bin = new BinaryFormatter();
+
+                    RockPaperScissors.listaTopJugadores = (List<Jugador>)bin.Deserialize(stream);
+                }
+            }
+            catch (IOException)
+            {
+            }
+        }
+
+        public void guardarBD()
+        {
+            try
+            {
+                using (Stream stream = File.Open(Server.MapPath("/BD.bin"), FileMode.Create))
+                {
+                    BinaryFormatter bin = new BinaryFormatter();
+                    bin.Serialize(stream, RockPaperScissors.listaTopJugadores);
+                }
+            }
+            catch (IOException)
+            {
+
             }
         }
     }
